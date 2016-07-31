@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:text="TURN ON"
         android:id="@+id/button"
-        android:onClick="turnOn"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -22,8 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TURN OFF"
-        android:id="@+id/button2"
-        android:onClick="turnOff"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
