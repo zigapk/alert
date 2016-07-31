@@ -1,6 +1,12 @@
 package com.zigapk.alert.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.telephony.SmsManager;
+import android.widget.Toast;
+
+import com.zigapk.alert.R;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -38,5 +44,26 @@ public class Util {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static void sendSMS(String phoneNo, String msg){
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, msg, null, null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static boolean isFirstTime(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean("first_time", true);
+    }
+
+    public static void setFirstTime(boolean value, Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("lastAppVersion", value);
+        editor.commit();
     }
 }
