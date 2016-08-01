@@ -1,27 +1,19 @@
 package com.zigapk.alert;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.SystemClock;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.zigapk.alert.utils.Util;
 
-import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity {
 
     public static final int SMS_PERMISSION = 0;
+    public static final int LOCATION_PERMISSION = 1;
     public static final String NUMBER = "+38640211890";
 
     MyReceiver alarm = new MyReceiver();
@@ -41,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
             Util.setFirstTime(false, getApplicationContext());
         }
 
+    }
+
+    public void get(View view){
+        Util.startLocationGetter(getApplicationContext());
+    }
+
+    public void getLocationPermissoion(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION);
+        }
     }
 
     public void sendSmsWithPermissionCheck(String number, String content) {
@@ -66,10 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Util.sendSMS(tempPermissoionCheckNumberHolder, tempPermissoionCheckContentHolder);
+                    getLocationPermissoion();
                 } else {
                     sendSmsWithPermissionCheck(tempPermissoionCheckNumberHolder, tempPermissoionCheckContentHolder);
                 }
-                return;
+                break;
+            }case LOCATION_PERMISSION: {
+                if (!(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    getLocationPermissoion();
+                }
             }
         }
     }
