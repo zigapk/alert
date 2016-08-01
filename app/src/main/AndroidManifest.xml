@@ -4,11 +4,10 @@
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
@@ -24,19 +23,22 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true" />
-
         <receiver
-            android:name=".MyReceiver"
+            android:name=".receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".receivers.LocationReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".receivers.DataUploadReciever"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
