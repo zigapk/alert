@@ -62,11 +62,11 @@ public class Util {
             try {
                 su.waitFor();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                saveToLog(e);
             }
             outputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            saveToLog(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class Util {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNo, null, msg, null, null);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            saveToLog(ex);
         }
     }
 
@@ -124,7 +124,7 @@ public class Util {
                     try {
                         Thread.sleep(5 * 60 * 1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Util.saveToLog(e);
                     }
                     if (ContextCompat.checkSelfPermission(context,
                             Manifest.permission.ACCESS_FINE_LOCATION)
@@ -132,11 +132,13 @@ public class Util {
                         try {
                             locationManager.removeUpdates(locationListener);
                         } catch (Exception e) {
+                            Util.saveToLog(e);
                         }
 
                         try {
                             turnGPSOff();
                         } catch (Exception e) {
+                            Util.saveToLog(e);
                         }
                     }
                 }
