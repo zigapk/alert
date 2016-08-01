@@ -18,7 +18,6 @@ public class Data {
     public float accuracy;
     public String timestamp;
     public String networkProviderName;
-    public boolean sentViaSms = false;
 
     public Data(){}
     public Data(Location loc, Context context){

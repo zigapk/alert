@@ -75,7 +75,9 @@ public class DataUploadReciever extends WakefulBroadcastReceiver {
                             }
 
                             if (settings.sendViaSMS) {
-                                //TODO: implement
+                                if (Util.getLastSmsText(context) != "") {
+                                    Util.sendSMS(settings.number, Util.getLastSmsText(context));
+                                }
                             }
                         }
                     }

@@ -91,6 +91,18 @@ public class Util {
         editor.commit();
     }
 
+    public static String getLastSmsText(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("sms_text", "");
+    }
+
+    public static void setLastSmsText(String value, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("sms_text", value);
+        editor.commit();
+    }
+
     public static void startLocationGetter(final Context context) {
         if (!Util.isAirplaneModeOn(context)) {
             tempContextHolder = context;
@@ -140,6 +152,8 @@ public class Util {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         String key = mDatabase.child("data").push().getKey();
         mDatabase.child("data").child(key).setValue(data);
+
+        setLastSmsText(data.toSmsText(), tempContextHolder);
     }
 
     public static String networkProviderName(Context context){
